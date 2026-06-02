@@ -192,8 +192,9 @@ function About() {
       <div className="sec-head"><h2>// how I work</h2></div>
       <div className="about-panel">
         <p className="about-hook">The work I'm proudest of has almost always been <span className="hl">collaborative</span>.</p>
-        <p>I coached rugby at UCSC for five years and TA'd biochemistry for four quarters, and over the course of my PhD I became the person other folks came to when an experiment or a pipeline wasn't behaving. That role suits me. I like sitting down with someone, working out what's actually going wrong, and getting them unstuck.</p>
-        <p>It's also why I'm looking for a team with some structure around it. The wet-and-dry-lab span I have is most useful in a room with other people: translating between the bench and the analysis, designing experiments together rather than alone. I'd rather contribute to something bigger than what I can hold by myself.</p>
+        <p>I coached rugby at UCSC for five years and TA'd biochemistry for four quarters, and over my PhD I became the person other folks came to when an experiment or a pipeline wasn't behaving. I like sitting down with someone, working out what's actually going wrong, and getting them unstuck.</p>
+        <p>These days I do that with customers. At a multiomics company I've worked directly with the people using our platform: starting from the biological question they actually care about, figuring out how to get the technology to answer it, then designing the experiment, running it from sample to result, and walking them through what came back. That translation between someone's biology and what the data can show is the part of the job I like most.</p>
+        <p>It's also how I want to keep working. The wet-and-dry-lab range I have earns its keep in a room with other people, and I'm better on a team than on my own.</p>
         <div className="about-tl">
           <span className="tl"><b>5 years</b> coaching rugby</span>
           <span className="tl"><b>4 quarters</b> TA, biochemistry</span>
