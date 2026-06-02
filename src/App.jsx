@@ -56,7 +56,6 @@ export default function App() {
       <Nav />
       <Hero />
       <Work counts={counts} mine={mine} onReact={react} />
-      <Leaderboard counts={counts} />
       <About />
       <Publications />
       <Talks />
@@ -72,7 +71,6 @@ function Nav() {
       <div className="brand">Marcus Viscardi<span className="dot">.</span></div>
       <div className="navlinks">
         <a href="#work">Work</a>
-        <a href="#interesting">Most clicked</a>
         <a href="#about">How I work</a>
         <a href="#pubs">Publications</a>
         <a href="#talks">Talks</a>
@@ -130,12 +128,13 @@ function Hero() {
 }
 
 function Work({ counts, mine, onReact }) {
+  const ordered = [...projects].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0))
   return (
     <section id="work"><div className="wrap">
       <div className="sec-head"><h2>// the work</h2></div>
-      <p className="lead">Click any project to open it. If something catches your eye, tap <span style={{ color: 'var(--warm)' }}>interesting</span>; the counts feed the leaderboard below.</p>
+      <p className="lead">Click any project to open it. If something catches your eye, tap <span style={{ color: 'var(--warm)' }}>interesting</span> — the most-clicked projects rise to the top.</p>
       <div>
-        {projects.map((p) => (
+        {ordered.map((p) => (
           <ProjectCard key={p.id} p={p} count={counts[p.id] || 0} mine={mine.has(p.id)} onReact={onReact} />
         ))}
       </div>
@@ -179,27 +178,6 @@ function ProjectCard({ p, count, mine, onReact }) {
         </div>
       </div>
     </div>
-  )
-}
-
-function Leaderboard({ counts }) {
-  const sorted = [...projects].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0))
-  const max = Math.max(1, ...sorted.map((p) => counts[p.id] || 0))
-  return (
-    <section id="interesting"><div className="wrap">
-      <div className="sec-head"><h2>// what visitors find interesting</h2></div>
-      <p className="lead">Live ranking, rebuilt from clicks.</p>
-      <div className="board">
-        {sorted.map((p, i) => (
-          <div className="row" key={p.id}>
-            <div className="rank">{i + 1}</div>
-            <div className="rname">{p.title}</div>
-            <div className="barwrap"><div className="bar" style={{ width: `${Math.round((counts[p.id] || 0) / max * 100)}%` }}></div></div>
-            <div className="rcount">{counts[p.id] || 0}</div>
-          </div>
-        ))}
-      </div>
-    </div></section>
   )
 }
 
