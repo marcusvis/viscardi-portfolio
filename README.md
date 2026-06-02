@@ -6,7 +6,7 @@ is shared across everyone who visits.
 
 - **Live site:** https://marcus-viscardi-profile.web.app
 - **Firebase console:** https://console.firebase.google.com/project/marcus-viscardi-profile
-- **Project folder:** `C:\Users\Marcus\2026_JobSearch\Career Planning and Applications\Portfolio-Site`
+- **Project folder:** the `viscardi-portfolio` folder on your computer
 
 ---
 
@@ -16,7 +16,7 @@ Every time you change something and want it live, it's two commands. Open
 PowerShell, go to the project folder, and run:
 
 ```
-cd "C:\Users\Marcus\2026_JobSearch\Career Planning and Applications\Portfolio-Site"
+cd "path\to\viscardi-portfolio"   # wherever you keep the project folder
 npm run build
 firebase deploy --only hosting
 ```
