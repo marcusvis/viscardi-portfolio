@@ -196,6 +196,7 @@ function About() {
         <p>These days I do that with customers. At a multiomics company I've worked directly with the people using our platform: starting from the biological question they actually care about, figuring out how to get the technology to answer it, then designing the experiment, running it from sample to result, and walking them through what came back. That translation between someone's biology and what the data can show is the part of the job I like most.</p>
         <p>It's also how I want to keep working. The wet-and-dry-lab range I have earns its keep in a room with other people, and I'm better on a team than on my own.</p>
         <div className="about-tl">
+          <span className="tl"><b>Customer pilots</b> from sample to result</span>
           <span className="tl"><b>5 years</b> coaching rugby</span>
           <span className="tl"><b>4 quarters</b> TA, biochemistry</span>
           <span className="tl"><b>3 years</b> the department's bioinformatics help desk</span>
