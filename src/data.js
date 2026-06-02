@@ -32,16 +32,6 @@ export const projects = [
     pills: ['Nextflow', 'AWS Batch', 'custom algorithms', 'Seqera Platform'],
   },
   {
-    id: 'agent', chan: 'warm', kicker: 'Applied AI',
-    title: 'From question to plot in minutes',
-    one: 'An analysis agent over multiomic pipeline outputs.',
-    body: [
-      'I built an exploratory-analysis layer that applies foundation models over multiomic pipeline outputs, so a domain expert can ask a question in plain language and reach a correct plot without waiting on bespoke code each time.',
-      'The engineering that matters is the guardrails: scoped permissions for an agent executing code against scientific data.',
-    ],
-    pills: ['LLM tool-calling', 'agentic systems', 'scoped execution'],
-  },
-  {
     id: 'andromeda', chan: 'rna', kicker: 'Open source',
     title: 'ANDROMEDA',
     one: 'Nanopore read accuracy from ~80% to ~99.98%.',
