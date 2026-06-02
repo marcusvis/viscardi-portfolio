@@ -57,7 +57,7 @@ export const projects = [
     title: 'The lab people came to for sequencing help',
     one: 'Three years of ad hoc bioinformatics consulting across the Mol Bio department.',
     body: [
-      'Within the UCSC Molecular Biology department I was the person other labs came to for sequencing strategy, library-prep choices, pipeline design, and debugging, and I built containerized Snakemake and Docker pipelines that were shared between groups.',
+      'Within the UCSC Molecular Biology department I was the person other scientists came to for sequencing strategy, library-prep choices, pipeline design, and debugging, and I built containerized Snakemake and Docker pipelines that were shared between groups.',
       'Four quarters as a biochem TA and five years coaching rugby come from the same place. I like helping people get unstuck.',
     ],
     pills: ['consulting', 'Snakemake + Docker', 'teaching'],
