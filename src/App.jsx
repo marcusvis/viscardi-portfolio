@@ -289,7 +289,7 @@ function Footer() {
       <div className="lead" style={{ color: 'var(--ink)' }}>Let's talk.</div>
       <p>Bay Area · wet + dry bioinformatics · open to solutions-engineering and translational roles.<br />
         <a href="mailto:marcus.viscardi@gmail.com">marcus.viscardi@gmail.com</a> &nbsp;·&nbsp;
-        <a href="https://github.com/MViscardi-UCSC">GitHub</a> &nbsp;·&nbsp;
+        <a href="https://github.com/MViscardi-UCSC">Academic GitHub</a> &nbsp;·&nbsp;
         <a href="https://www.linkedin.com/in/marcusviscardi/">LinkedIn</a></p>
     </div></footer>
   )
