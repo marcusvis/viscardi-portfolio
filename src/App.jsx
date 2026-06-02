@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { projects, publications, talks, skills } from './data'
 import { fetchCounts, bumpReaction, firebaseReady } from './firebase'
 
@@ -151,7 +152,11 @@ function ProjectCard({ p, count, mine, onReact }) {
   const maxHeight = open ? (bodyRef.current ? bodyRef.current.scrollHeight : 1000) : 0
 
   return (
-    <div className={`card${open ? ' open' : ''}`}>
+    <motion.div
+      layout="position"
+      transition={{ type: 'spring', stiffness: 600, damping: 45 }}
+      className={`card${open ? ' open' : ''}`}
+    >
       <div className="card-head" onClick={() => setOpen((o) => !o)}>
         <div className={`chan ${p.chan}`}></div>
         <div className="card-meta">
@@ -177,7 +182,7 @@ function ProjectCard({ p, count, mine, onReact }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
