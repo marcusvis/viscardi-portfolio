@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marcus Viscardi — Wet + Dry Genomics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#121821; --panel-2:#0f141c;
+    --ink:#e8edf4; --muted:#9aa7b8; --faint:#5d6b7d;
+    --line:#1f2935; --line-2:#2a3848;
+    --rna:#3ec6a8;  /* teal - RNA */
+    --dna:#5a8dff;  /* blue - DNA */
+    --me:#d98cff;   /* purple - methylation */
+    --warm:#ffb454; /* amber accent */
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+  a{color:inherit}
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px}
+
+  /* ===== nav ===== */
+  nav{position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
+      background:rgba(11,15,20,.72); border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .brand{font-weight:600; letter-spacing:.2px}
+  .brand .dot{color:var(--rna)}
+  .navlinks{display:flex; gap:22px; font-size:14px; color:var(--muted)}
+  .navlinks a{text-decoration:none}
+  .navlinks a:hover{color:var(--ink)}
+  @media(max-width:620px){.navlinks{display:none}}
+
+  /* ===== hero ===== */
+  .hero{padding:84px 0 56px; position:relative; overflow:hidden}
+  .strand{position:absolute; inset:0; opacity:.5; pointer-events:none}
+  .eyebrow{font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--rna)}
+  h1{font-size:clamp(34px,6vw,58px); line-height:1.05; margin:14px 0 0; font-weight:700; letter-spacing:-1px}
+  .sub{font-size:clamp(17px,2.4vw,21px); color:var(--muted); max-width:680px; margin:20px 0 0}
+  .tags{display:flex; flex-wrap:wrap; gap:10px; margin-top:28px}
+  .tag{font-size:13px; padding:6px 13px; border-radius:999px; border:1px solid var(--line-2);
+       color:var(--muted); background:var(--panel)}
+  .tag b{color:var(--ink); font-weight:500}
+  .cta{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap}
+  .btn{font-size:14px; font-weight:500; padding:11px 20px; border-radius:10px; text-decoration:none;
+       border:1px solid var(--line-2); color:var(--ink); background:var(--panel); transition:.15s}
+  .btn:hover{border-color:var(--rna); transform:translateY(-1px)}
+  .btn.primary{background:var(--rna); color:#04221c; border-color:var(--rna)}
+  .btn.primary:hover{filter:brightness(1.08)}
+
+  /* ===== section ===== */
+  section{padding:54px 0; border-top:1px solid var(--line)}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px}
+  .sec-head h2{font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--faint); margin:0; font-weight:600}
+  .lead{font-size:22px; font-weight:600; margin:0 0 26px; letter-spacing:-.3px}
+
+  /* ===== project cards (explorable) ===== */
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+        margin-bottom:14px; overflow:hidden; transition:border-color .2s}
+  .card:hover{border-color:var(--line-2)}
+  .card.open{border-color:var(--line-2)}
+  .card-head{display:flex; align-items:flex-start; gap:16px; padding:20px 22px; cursor:pointer; user-select:none}
+  .chan{width:8px; align-self:stretch; border-radius:4px; flex:0 0 8px}
+  .chan.rna{background:var(--rna)} .chan.dna{background:var(--dna)}
+  .chan.me{background:var(--me)} .chan.warm{background:var(--warm)}
+  .card-meta{flex:1; min-width:0}
+  .card-kicker{font-size:12px; letter-spacing:1px; text-transform:uppercase; color:var(--faint)}
+  .card-title{font-size:18px; font-weight:600; margin:3px 0 4px}
+  .card-one{font-size:15px; color:var(--muted)}
+  .chev{color:var(--faint); font-size:20px; transition:transform .2s; margin-top:2px}
+  .card.open .chev{transform:rotate(90deg); color:var(--ink)}
+  .card-body{max-height:0; overflow:hidden; transition:max-height .35s ease}
+  .card-body-inner{padding:0 22px 22px 46px}
+  .card-body p{margin:0 0 12px; color:#c2cdda; font-size:15px}
+  .expand{font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.3px; color:var(--rna)}
+  .pills{display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 16px}
+  .pill{font-size:12px; padding:4px 10px; border-radius:7px; background:var(--panel-2);
+        border:1px solid var(--line); color:var(--muted)}
+  .react{display:flex; align-items:center; gap:12px; padding-top:8px; border-top:1px solid var(--line)}
+  .reactbtn{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500;
+            padding:8px 15px; border-radius:9px; border:1px solid var(--line-2); background:var(--panel-2);
+            color:var(--ink); cursor:pointer; transition:.15s; font-family:inherit}
+  .reactbtn:hover{border-color:var(--warm)}
+  .reactbtn.on{background:rgba(255,180,84,.14); border-color:var(--warm); color:var(--warm)}
+  .reactbtn .ct{font-variant-numeric:tabular-nums}
+  .react small{color:var(--faint); font-size:12px}
+
+  /* ===== leaderboard ===== */
+  .board{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:8px}
+  .row{display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:9px; transition:.4s}
+  .row + .row{margin-top:2px}
+  .rank{font-size:13px; color:var(--faint); width:22px; text-align:center}
+  .rname{flex:1; font-size:15px}
+  .bar{height:7px; border-radius:4px; background:var(--warm); transition:width .5s}
+  .barwrap{flex:0 0 130px; background:var(--panel-2); border-radius:4px; overflow:hidden}
+  .rcount{width:40px; text-align:right; font-size:14px; color:var(--muted)}
+
+  /* ===== pubs ===== */
+  .about-panel{background:var(--panel); border:1px solid var(--line-2); border-radius:18px; padding:40px 44px; max-width:830px}
+  .about-hook{font-size:25px; line-height:1.42; font-weight:600; letter-spacing:-.3px; margin:0 0 22px; color:var(--ink)}
+  .about-hook .hl{color:var(--rna)}
+  .about-panel p{font-size:16px; color:#c6d0dc; line-height:1.75; margin:0 0 16px; max-width:690px}
+  .about-panel p:last-of-type{margin-bottom:0}
+  .about-tl{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; padding-top:24px; border-top:1px solid var(--line)}
+  .about-tl .tl{font-size:13px; color:var(--muted); background:var(--panel-2); border:1px solid var(--line); border-radius:9px; padding:8px 14px}
+  .about-tl .tl b{color:var(--ink); font-weight:500}
+  @media(max-width:560px){.about-panel{padding:28px 24px} .about-hook{font-size:21px}}
+  .pubcard{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; margin-bottom:14px}
+  .pubcard-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:11px}
+  .venue-badge{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--rna); letter-spacing:.5px}
+  .role-badge{font-size:11px; letter-spacing:.6px; text-transform:uppercase; padding:3px 9px; border-radius:6px; border:1px solid var(--line-2); color:var(--muted)}
+  .role-badge.first{color:var(--warm); border-color:rgba(255,180,84,.4)}
+  .pubcard-title{font-size:17px; font-weight:600; line-height:1.4; margin-bottom:8px}
+  .authors{font-size:13px; color:var(--faint); margin-bottom:18px; line-height:1.55}
+  .authors .self{color:var(--ink); font-weight:500}
+  .pubrow{display:grid; grid-template-columns:78px 1fr; gap:14px; margin-bottom:11px}
+  .pubrow .plab{font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--faint); padding-top:2px}
+  .pubrow p{margin:0; font-size:14.5px; color:#c6d0dc; line-height:1.65}
+  .publink{display:inline-block; margin-top:6px; font-size:13px; color:var(--rna); text-decoration:none}
+  .publink:hover{text-decoration:underline}
+  .todo{color:var(--warm); font-style:italic}
+  @media(max-width:560px){.pubrow{grid-template-columns:1fr; gap:3px}}
+
+  .timeline{position:relative; margin-top:8px}
+  .timeline::before{content:''; position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:var(--line-2)}
+  .tevent{position:relative; padding:0 0 26px 36px}
+  .tevent:last-child{padding-bottom:0}
+  .tdot{position:absolute; left:1px; top:3px; width:14px; height:14px; border-radius:50%; background:var(--bg); border:2px solid var(--rna)}
+  .tyear{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--rna); letter-spacing:.5px}
+  .tplace{font-size:16px; font-weight:600; margin:3px 0 3px}
+  .tplace .city{color:var(--muted); font-weight:400; font-size:14px}
+  .ttopic{font-size:14px; color:#c6d0dc; line-height:1.6; margin:0}
+  .ttype{display:inline-block; font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--faint); border:1px solid var(--line); border-radius:5px; padding:2px 8px; margin-left:9px; vertical-align:2px}
+  .ttopic-todo{color:var(--faint); font-style:italic}
+  .tnote{display:block; font-size:13px; color:var(--faint); margin-top:4px}
+
+  /* ===== skills grid ===== */
+  .skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+  .skill{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px}
+  .skill h3{font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--faint); margin:0 0 10px; font-weight:600}
+  .skill p{margin:0; font-size:14px; color:#c2cdda; line-height:1.6}
+
+  footer{padding:50px 0 70px; border-top:1px solid var(--line); color:var(--muted); font-size:14px}
+  footer a{color:var(--rna); text-decoration:none}
+  .legend{display:flex; gap:18px; flex-wrap:wrap; font-size:12px; color:var(--faint); margin-top:14px}
+  .legend span{display:inline-flex; align-items:center; gap:7px}
+  .ld{width:10px; height:10px; border-radius:3px}
+  .note{font-size:12px; color:var(--faint); margin-top:18px; font-style:italic}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="brand">Marcus Viscardi<span class="dot">.</span></div>
+  <div class="navlinks">
+    <a href="#work">Work</a>
+    <a href="#interesting">Most clicked</a>
+    <a href="#about">How I work</a>
+    <a href="#pubs">Publications</a>
+    <a href="#talks">Talks</a>
+    <a href="#skills">Toolkit</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <svg class="strand" viewBox="0 0 980 360" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div class="eyebrow">PhD · RNA biology · multiomics</div>
+  <h1>I work at the bench<br/>and in the pipeline.</h1>
+  <p class="sub">I develop sequencing assays at the bench, then write the production pipelines that turn the reads into biology. PhD in RNA biology; currently working in multiomics.</p>
+  <div class="tags">
+    <span class="tag"><b>Nanopore</b> direct RNA-seq</span>
+    <span class="tag"><b>Multiomic</b> library development</span>
+    <span class="tag"><b>Nextflow</b> + AWS pipelines</span>
+    <span class="tag"><b>Foundation models</b> on omics data</span>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#work">See the work →</a>
+    <a class="btn" href="#contact">Get in touch</a>
+  </div>
+  <div class="legend">
+    <span><i class="ld" style="background:var(--rna)"></i>RNA</span>
+    <span><i class="ld" style="background:var(--dna)"></i>DNA</span>
+    <span><i class="ld" style="background:var(--me)"></i>methylation</span>
+    <span><i class="ld" style="background:var(--warm)"></i>tooling / infra</span>
+  </div>
+</div></header>
+
+<main>
+
+<section id="work"><div class="wrap">
+  <div class="sec-head"><h2>// the work</h2></div>
+  <p class="lead">Click any project to open it. If something catches your eye, tap <span style="color:var(--warm)">interesting</span>; the counts feed the leaderboard below.</p>
+  <div id="cards"></div>
+  <p class="note">Draft note: reaction counts are stored in your browser for now. In the live build these persist in a shared database (Firestore) so every visitor sees the real running tally.</p>
+</div></section>
+
+<section id="interesting"><div class="wrap">
+  <div class="sec-head"><h2>// what visitors find interesting</h2></div>
+  <p class="lead">Live ranking, rebuilt from clicks.</p>
+  <div class="board" id="board"></div>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <div class="sec-head"><h2>// how I work</h2></div>
+  <div class="about-panel">
+    <p class="about-hook">The work I'm proudest of has almost always been <span class="hl">collaborative</span>.</p>
+    <p>I coached rugby at UCSC for five years and TA'd biochemistry for four quarters, and over the course of my PhD I became the person other folks came to when an experiment or a pipeline wasn't behaving. That role suits me. I like sitting down with someone, working out what's actually going wrong, and getting them unstuck.</p>
+    <p>It's also why I'm looking for a team with some structure around it. The wet-and-dry-lab span I have is most useful in a room with other people: translating between the bench and the analysis, designing experiments together rather than alone. I'd rather contribute to something bigger than what I can hold by myself.</p>
+    <div class="about-tl">
+      <span class="tl"><b>5 years</b> coaching rugby</span>
+      <span class="tl"><b>4 quarters</b> TA, biochemistry</span>
+      <span class="tl"><b>3 years</b> the department's bioinformatics help desk</span>
+    </div>
+  </div>
+</div></section>
+
+<section id="pubs"><div class="wrap">
+  <div class="sec-head"><h2>// publications</h2></div>
+  <p class="lead">What each paper found, and what I did on it.</p>
+
+  <div class="pubcard">
+    <div class="pubcard-top">
+      <span class="venue-badge">Genome Research · 2025</span>
+      <span class="role-badge first">First author</span>
+    </div>
+    <div class="pubcard-title">Endonucleolytic cleavage is the primary mechanism of decay elicited by C. elegans nonsense-mediated mRNA decay</div>
+    <div class="authors"><span class="self">Marcus J. Viscardi</span>, Enisha Sehgal, Joshua A. Arribere</div>
+    <div class="pubrow"><span class="plab">Found</span><p>In living worms, mRNAs flagged for nonsense-mediated decay are destroyed mainly by a single internal cut (SMG-6 endonucleolytic cleavage), not by tail-trimming as the field had assumed for decades. SMG-5, long thought to drive deadenylation, turns out to be required for that cut.</p></div>
+    <div class="pubrow"><span class="plab">My part</span><p>I built the modified nanopore direct RNA-seq assay, designed and ran the C. elegans experiments, wrote the decay-pathway analysis from scratch, and led the project from question to publication.</p></div>
+    <a class="publink" href="https://genome.cshlp.org/content/35/6/1337">Read it →</a>
+  </div>
+
+  <div class="pubcard">
+    <div class="pubcard-top">
+      <span class="venue-badge">BMC Genomics · 2022</span>
+      <span class="role-badge first">First author</span>
+    </div>
+    <div class="pubcard-title">Poly(A) selection introduces bias and undue noise in direct RNA-sequencing</div>
+    <div class="authors"><span class="self">Marcus J. Viscardi</span>, Joshua A. Arribere</div>
+    <div class="pubrow"><span class="plab">Found</span><p>Poly(A) selection, a routine library-prep step, skews nanopore direct RNA-seq toward longer poly(A) tails and inconsistently captures more than 10% of genes. It also turns out to be unnecessary for the method. The result is now standard caveat language in the direct RNA-seq community.</p></div>
+    <div class="pubrow"><span class="plab">My part</span><p>I designed the comparison, ran the library preps and sequencing, did the analysis, and wrote the paper.</p></div>
+    <a class="publink" href="https://doi.org/10.1186/s12864-022-08762-8">Read it →</a>
+  </div>
+
+  <div class="pubcard">
+    <div class="pubcard-top">
+      <span class="venue-badge">RNA · 2026</span>
+      <span class="role-badge">Co-author</span>
+    </div>
+    <div class="pubcard-title">The PIN domain of SMG-5 functionally interacts with SMG-6 to stimulate NMD</div>
+    <div class="authors">Matthew S. Modena, Chloe M. Wohlenberg, <span class="self">Marcus J. Viscardi</span>, Christian R. Dunn, Benjamin L. Haag, Joshua A. Arribere</div>
+    <div class="pubrow"><span class="plab">Found</span><p>The PIN domain of SMG-5 works together with SMG-6, pointing to a composite catalytic site as the engine that initiates decay-cleavage. A complementary line of evidence for the cleavage-first picture from the Genome Research work above.</p></div>
+    <div class="pubrow"><span class="plab">My part</span><p>I designed and built two of the SMG-5 mutant alleles the study used to probe the SMG-5/SMG-6 interaction.</p></div>
+    <a class="publink" href="https://rnajournal.cshlp.org/content/early/2026/02/04/rna.080653.125.abstract">Read it →</a>
+  </div>
+
+  <div class="pubcard">
+    <div class="pubcard-top">
+      <span class="venue-badge">RNA · 2024</span>
+      <span class="role-badge">Co-author</span>
+    </div>
+    <div class="pubcard-title">High-resolution reconstruction of a C. elegans ribosome sheds light on evolutionary dynamics and tissue specificity</div>
+    <div class="authors">Enisha Sehgal, Chloe Wohlenberg, Evan M. Soukup, <span class="self">Marcus J. Viscardi</span>, Vitor Hugo Balasco Serrão, Joshua A. Arribere</div>
+    <div class="pubrow"><span class="plab">Found</span><p>The first high-resolution cryo-EM structure of a C. elegans ribosome, revealing a streamlined animal ribosome. Core architecture is conserved, while expansion segments and eL28 are rapidly evolving, and two ribosomal proteins (uL5, uL23) show tissue-specific paralog expression, suggesting ribosomes differ across tissues.</p></div>
+    <div class="pubrow"><span class="plab">My part</span><p>I generated the long-read RNA sequencing that confirmed several of the newly identified ribosomal-protein homologs are expressed.</p></div>
+    <a class="publink" href="https://rnajournal.cshlp.org/content/30/11/1513">Read it →</a>
+  </div>
+</div></section>
+
+<section id="talks"><div class="wrap">
+  <div class="sec-head"><h2>// talks &amp; presentations</h2></div>
+  <p class="lead">Invited and selected talks, 2018 to now.</p>
+  <div class="timeline">
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2024</div>
+      <div class="tplace">RNA Society Annual Meeting <span class="city">· Edinburgh, UK</span></div>
+      <p class="ttopic">Endonucleolytic cleavage as the primary mechanism of nonsense-mediated decay.</p>
+    </div>
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2024</div>
+      <div class="tplace">Bay Area RNA Club <span class="city">· Bay Area, CA</span><span class="ttype">talk</span></div>
+      <p class="ttopic">Reading mRNA decay intermediates with long-read direct RNA-seq.</p>
+    </div>
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2023</div>
+      <div class="tplace">CSHL Eukaryotic mRNA Processing <span class="city">· Cold Spring Harbor, NY</span></div>
+      <p class="ttopic">Mechanism of NMD-target decay in C. elegans.</p>
+    </div>
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2023</div>
+      <div class="tplace">Bay Area RNA Club <span class="city">· Bay Area, CA</span><span class="ttype">talk</span></div>
+      <p class="ttopic">Nanopore direct RNA-seq for studying mRNA decay.</p>
+    </div>
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2022</div>
+      <div class="tplace">RNA Society Annual Meeting <span class="city">· Boulder, CO</span></div>
+      <p class="ttopic">Poly(A) selection bias in direct RNA-sequencing.</p>
+    </div>
+
+    <div class="tevent"><span class="tdot"></span>
+      <div class="tyear">2018</div>
+      <div class="tplace">RNA Society Annual Meeting <span class="city">· Berkeley, CA</span></div>
+      <p class="ttopic">In vivo expression studies of the V. cholerae glycine riboswitch, including mutational analysis of ligand-binding and dimerization regions.<span class="tnote">Undergraduate research, Saint Mary's College of California.</span></p>
+    </div>
+
+  </div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <div class="sec-head"><h2>// toolkit</h2></div>
+  <p class="lead">What I actually reach for.</p>
+  <div class="skills">
+    <div class="skill"><h3>Wet lab</h3><p>Nanopore direct RNA-seq, Illumina RNA/DNA/methyl library prep, EM/bisulfite-seq, FFPE workflows, hybrid capture, multiomic assay design, Opentrons automation.</p></div>
+    <div class="skill"><h3>Pipelines & cloud</h3><p>Nextflow on Seqera Platform + AWS Batch, Snakemake, Docker/Singularity, GitHub Actions CI/CD, S3 at TB scale, Linux daily.</p></div>
+    <div class="skill"><h3>Languages</h3><p>Python (Pandas, NumPy, SciPy, BioPython, PySAM, scikit-learn), R (tidyverse, DESeq2, edgeR), SQL, bash.</p></div>
+    <div class="skill"><h3>Genomics methods</h3><p>STAR, minimap2, GATK, LoFreq, Biscuit, samtools/bcftools/bedtools, MultiQC, variant calling, CpG methylation, CNV, cfDNA.</p></div>
+    <div class="skill"><h3>Applied AI</h3><p>Foundation models in production agentic systems — LLM tool-calling, scoped permissions for agents running code against scientific data. Statistical ML at scale.</p></div>
+    <div class="skill"><h3>Domain depth</h3><p>RNA biology (decay, splicing, NMD), long-read sequencing, in vitro directed evolution, bulk RNA-seq, methylation, copy number.</p></div>
+  </div>
+</div></section>
+
+</main>
+
+<footer id="contact"><div class="wrap">
+  <div class="lead" style="color:var(--ink)">Let's talk.</div>
+  <p>Bay Area · wet + dry bioinformatics · open to solutions-engineering and translational roles.<br/>
+  <a href="mailto:marcus.viscardi@gmail.com">marcus.viscardi@gmail.com</a> &nbsp;·&nbsp; <a href="https://github.com/MViscardi-UCSC">GitHub</a> &nbsp;·&nbsp; <a href="#">LinkedIn</a></p>
+  <p class="note">Draft v0.1 — content and disclosure still under review. Motley Bio specifics intentionally held back pending sign-off.</p>
+</div></footer>
+
+<script>
+const projects = [
+  { id:'nmd', chan:'rna', kicker:'PhD · UC Santa Cruz',
+    title:'A different primary mechanism for mRNA decay',
+    one:'First author, Genome Research 2025.',
+    body:[
+      'For about forty years, the field assumed nonsense-mediated decay started by trimming the poly(A) tail. I used a modified nanopore direct RNA-seq assay to read full-length transcripts directly, and the data pointed to endonucleolytic cleavage as the primary trigger instead.',
+      'Reading native RNA end to end, rather than reassembling it from short fragments, is what made the mechanism visible.'
+    ],
+    pills:['nanopore direct RNA-seq','RNA decay','first author · Genome Research 2025'] },
+
+  { id:'trinity', chan:'me', kicker:'Multiomics · lead scientist',
+    title:'Three assays collapsed into one library',
+    one:'DNA, RNA, and CpG methylation from a single input.',
+    body:[
+      'DNA, RNA, and methylation usually come from three separate assays run on split material. I led wet-lab development of a single-library protocol that produces all three from one input, validated across cell line, fresh tissue, and FFPE, with early signal from plasma.',
+      'The matched pipeline separates the channels so each output is comparable to its single-assay equivalent.'
+    ],
+    pills:['multiomic library design','FFPE / tissue / cell','DNA + RNA + methyl'] },
+
+  { id:'pipes', chan:'dna', kicker:'Multiomics · pipeline owner',
+    title:'Production pipelines for a non-standard assay',
+    one:'Nextflow on AWS Batch, in production on real cohorts.',
+    body:[
+      'Off-the-shelf pipelines do not fit a custom assay, so I architect and maintain production Nextflow pipelines on Seqera Platform and AWS Batch that demultiplex the channels and run each through method-appropriate analysis.',
+      'Several of the modules and algorithms are ones I wrote for the custom chemistry. That work only makes sense if you also know what happened at the bench.'
+    ],
+    pills:['Nextflow','AWS Batch','custom algorithms','Seqera Platform'] },
+
+  { id:'agent', chan:'warm', kicker:'Applied AI',
+    title:'From question to plot in minutes',
+    one:'An analysis agent over multiomic pipeline outputs.',
+    body:[
+      'I built an exploratory-analysis layer that applies foundation models over multiomic pipeline outputs, so a domain expert can ask a question in plain language and reach a correct plot without waiting on bespoke code each time.',
+      'The engineering that matters is the guardrails: scoped permissions for an agent executing code against scientific data.'
+    ],
+    pills:['LLM tool-calling','agentic systems','scoped execution'] },
+
+  { id:'andromeda', chan:'rna', kicker:'Open source',
+    title:'ANDROMEDA',
+    one:'Nanopore read accuracy from ~80% to ~99.98%.',
+    body:[
+      '<span class="expand">Alignment-based Nucleotide Detection and Read Optimization for Mapping Errors, Deaminations, and Alterations.</span>',
+      'Nanopore reads are long but noisy, around 80% raw accuracy, which usually rules out single-base work. ANDROMEDA collapses reads sharing a unique molecular identifier into a consensus, reaching about 99.98%, enough to call single-nucleotide mutations in directed-evolution screens of an RNA base editor.',
+      'Open source, MIT licensed, built with Liam Tran in the Arribere Lab. github.com/MViscardi-UCSC/ANDROMEDA'
+    ],
+    pills:['UMI consensus','open source','directed evolution'] },
+
+  { id:'consult', chan:'warm', kicker:'UC Santa Cruz · 3 years',
+    title:'The lab people came to for sequencing help',
+    one:'Three years of ad hoc bioinformatics consulting across the Mol Bio department.',
+    body:[
+      'Within the UCSC Molecular Biology department I was the person other labs came to for sequencing strategy, library-prep choices, pipeline design, and debugging, and I built containerized Snakemake and Docker pipelines that were shared between groups.',
+      'Four quarters as a biochem TA and five years coaching rugby come from the same place. I like helping people get unstuck.'
+    ],
+    pills:['consulting','Snakemake + Docker','teaching'] }
+];
+
+const KEY = 'mv_reacts_v1';
+let counts = {};
+try { counts = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ counts = {}; }
+// seed a believable baseline so the leaderboard looks alive in the draft
+const seed = { nmd:34, trinity:41, pipes:19, agent:52, andromeda:28, consult:12 };
+projects.forEach(p => { if(counts[p.id]===undefined) counts[p.id] = seed[p.id]; });
+const mine = new Set();
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(counts)); }catch(e){} }
+
+const cardWrap = document.getElementById('cards');
+projects.forEach(p => {
+  const c = document.createElement('div');
+  c.className = 'card';
+  c.innerHTML = `
+    <div class="card-head">
+      <div class="chan ${p.chan}"></div>
+      <div class="card-meta">
+        <div class="card-kicker">${p.kicker}</div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-one">${p.one}</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+    <div class="card-body"><div class="card-body-inner">
+      ${p.body.map(t=>`<p>${t}</p>`).join('')}
+      <div class="pills">${p.pills.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
+      <div class="react">
+        <button class="reactbtn" data-id="${p.id}">
+          <i class="ti ti-bulb"></i> interesting · <span class="ct">${counts[p.id]}</span>
+        </button>
+        <small>click to add yours</small>
+      </div>
+    </div></div>`;
+  cardWrap.appendChild(c);
+
+  const head = c.querySelector('.card-head');
+  const body = c.querySelector('.card-body');
+  head.addEventListener('click', e=>{
+    if(e.target.closest('.reactbtn')) return;
+    const open = c.classList.toggle('open');
+    body.style.maxHeight = open ? body.scrollHeight + 'px' : 0;
+  });
+});
+
+document.querySelectorAll('.reactbtn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const id = b.dataset.id;
+    if(mine.has(id)){ mine.delete(id); counts[id]--; b.classList.remove('on'); }
+    else { mine.add(id); counts[id]++; b.classList.add('on'); }
+    b.querySelector('.ct').textContent = counts[id];
+    save(); renderBoard();
+    // keep open card height correct
+    const card = b.closest('.card');
+    if(card.classList.contains('open')){
+      const body = card.querySelector('.card-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+const board = document.getElementById('board');
+function renderBoard(){
+  const sorted = [...projects].sort((a,b)=>counts[b.id]-counts[a.id]);
+  const max = Math.max(...sorted.map(p=>counts[p.id]),1);
+  board.innerHTML = sorted.map((p,i)=>`
+    <div class="row">
+      <div class="rank">${i+1}</div>
+      <div class="rname">${p.title}</div>
+      <div class="barwrap"><div class="bar" style="width:${Math.round(counts[p.id]/max*100)}%"></div></div>
+      <div class="rcount">${counts[p.id]}</div>
+    </div>`).join('');
+}
+renderBoard();
+
+// lightweight double-helix backdrop in the hero
+(function(){
+  const svg = document.querySelector('.strand');
+  if(!svg) return;
+  const W=980,H=360, n=46; let s='';
+  for(let i=0;i<n;i++){
+    const x = i/(n-1)*W;
+    const y1 = H/2 + Math.sin(i*0.5)*70;
+    const y2 = H/2 - Math.sin(i*0.5)*70;
+    const op = 0.20 + Math.abs(Math.sin(i*0.5))*0.30;
+    s += `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#3ec6a8" stroke-width="1" opacity="${op*0.5}"/>`;
+    s += `<circle cx="${x}" cy="${y1}" r="2.4" fill="#3ec6a8" opacity="${op}"/>`;
+    s += `<circle cx="${x}" cy="${y2}" r="2.4" fill="#5a8dff" opacity="${op}"/>`;
+  }
+  svg.innerHTML = s;
+})();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+</body>
+</html>

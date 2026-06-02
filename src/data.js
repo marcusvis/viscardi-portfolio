@@ -1,0 +1,118 @@
+// All site content lives here so copy edits never touch component logic.
+
+export const projects = [
+  {
+    id: 'nmd', chan: 'rna', kicker: 'PhD · UC Santa Cruz',
+    title: 'A different primary mechanism for mRNA decay',
+    one: 'First author, Genome Research 2025.',
+    body: [
+      'For about forty years, the field assumed nonsense-mediated decay started by trimming the poly(A) tail. I used a modified nanopore direct RNA-seq assay to read full-length transcripts directly, and the data pointed to endonucleolytic cleavage as the primary trigger instead.',
+      'Reading native RNA end to end, rather than reassembling it from short fragments, is what made the mechanism visible.',
+    ],
+    pills: ['nanopore direct RNA-seq', 'RNA decay', 'first author · Genome Research 2025'],
+  },
+  {
+    id: 'trinity', chan: 'me', kicker: 'Multiomics · lead scientist',
+    title: 'Three assays collapsed into one library',
+    one: 'DNA, RNA, and CpG methylation from a single input.',
+    body: [
+      'DNA, RNA, and methylation usually come from three separate assays run on split material. I led wet-lab development of a single-library protocol that produces all three from one input, validated across cell line, fresh tissue, and FFPE, with early signal from plasma.',
+      'The matched pipeline separates the channels so each output is comparable to its single-assay equivalent.',
+    ],
+    pills: ['multiomic library design', 'FFPE / tissue / cell', 'DNA + RNA + methyl'],
+  },
+  {
+    id: 'pipes', chan: 'dna', kicker: 'Multiomics · pipeline owner',
+    title: 'Production pipelines for a non-standard assay',
+    one: 'Nextflow on AWS Batch, in production on real cohorts.',
+    body: [
+      'Off-the-shelf pipelines do not fit a custom assay, so I architect and maintain production Nextflow pipelines on Seqera Platform and AWS Batch that demultiplex the channels and run each through method-appropriate analysis.',
+      'Several of the modules and algorithms are ones I wrote for the custom chemistry. That work only makes sense if you also know what happened at the bench.',
+    ],
+    pills: ['Nextflow', 'AWS Batch', 'custom algorithms', 'Seqera Platform'],
+  },
+  {
+    id: 'agent', chan: 'warm', kicker: 'Applied AI',
+    title: 'From question to plot in minutes',
+    one: 'An analysis agent over multiomic pipeline outputs.',
+    body: [
+      'I built an exploratory-analysis layer that applies foundation models over multiomic pipeline outputs, so a domain expert can ask a question in plain language and reach a correct plot without waiting on bespoke code each time.',
+      'The engineering that matters is the guardrails: scoped permissions for an agent executing code against scientific data.',
+    ],
+    pills: ['LLM tool-calling', 'agentic systems', 'scoped execution'],
+  },
+  {
+    id: 'andromeda', chan: 'rna', kicker: 'Open source',
+    title: 'ANDROMEDA',
+    one: 'Nanopore read accuracy from ~80% to ~99.98%.',
+    expand: 'Alignment-based Nucleotide Detection and Read Optimization for Mapping Errors, Deaminations, and Alterations.',
+    body: [
+      'Nanopore reads are long but noisy, around 80% raw accuracy, which usually rules out single-base work. ANDROMEDA collapses reads sharing a unique molecular identifier into a consensus, reaching about 99.98%, enough to call single-nucleotide mutations in directed-evolution screens of an RNA base editor.',
+      'Open source, MIT licensed, built with Liam Tran in the Arribere Lab. github.com/MViscardi-UCSC/ANDROMEDA',
+    ],
+    pills: ['UMI consensus', 'open source', 'directed evolution'],
+  },
+  {
+    id: 'consult', chan: 'warm', kicker: 'UC Santa Cruz · 3 years',
+    title: 'The lab people came to for sequencing help',
+    one: 'Three years of ad hoc bioinformatics consulting across the Mol Bio department.',
+    body: [
+      'Within the UCSC Molecular Biology department I was the person other labs came to for sequencing strategy, library-prep choices, pipeline design, and debugging, and I built containerized Snakemake and Docker pipelines that were shared between groups.',
+      'Four quarters as a biochem TA and five years coaching rugby come from the same place. I like helping people get unstuck.',
+    ],
+    pills: ['consulting', 'Snakemake + Docker', 'teaching'],
+  },
+]
+
+export const publications = [
+  {
+    venue: 'Genome Research · 2025', role: 'First author', first: true,
+    title: 'Endonucleolytic cleavage is the primary mechanism of decay elicited by C. elegans nonsense-mediated mRNA decay',
+    authors: [['Marcus J. Viscardi', true], ['Enisha Sehgal', false], ['Joshua A. Arribere', false]],
+    found: 'In living worms, mRNAs flagged for nonsense-mediated decay are destroyed mainly by a single internal cut (SMG-6 endonucleolytic cleavage), not by tail-trimming as the field had assumed for decades. SMG-5, long thought to drive deadenylation, turns out to be required for that cut.',
+    mine: 'I built the modified nanopore direct RNA-seq assay, designed and ran the C. elegans experiments, wrote the decay-pathway analysis from scratch, and led the project from question to publication.',
+    link: 'https://genome.cshlp.org/content/35/6/1337',
+  },
+  {
+    venue: 'BMC Genomics · 2022', role: 'First author', first: true,
+    title: 'Poly(A) selection introduces bias and undue noise in direct RNA-sequencing',
+    authors: [['Marcus J. Viscardi', true], ['Joshua A. Arribere', false]],
+    found: 'Poly(A) selection, a routine library-prep step, skews nanopore direct RNA-seq toward longer poly(A) tails and inconsistently captures more than 10% of genes. It also turns out to be unnecessary for the method. The result is now standard caveat language in the direct RNA-seq community.',
+    mine: 'I designed the comparison, ran the library preps and sequencing, did the analysis, and wrote the paper.',
+    link: 'https://doi.org/10.1186/s12864-022-08762-8',
+  },
+  {
+    venue: 'RNA · 2026', role: 'Co-author', first: false,
+    title: 'The PIN domain of SMG-5 functionally interacts with SMG-6 to stimulate NMD',
+    authors: [['Matthew S. Modena', false], ['Chloe M. Wohlenberg', false], ['Marcus J. Viscardi', true], ['Christian R. Dunn', false], ['Benjamin L. Haag', false], ['Joshua A. Arribere', false]],
+    found: 'The PIN domain of SMG-5 works together with SMG-6, pointing to a composite catalytic site as the engine that initiates decay-cleavage. A complementary line of evidence for the cleavage-first picture from the Genome Research work above.',
+    mine: 'I designed and built two of the SMG-5 mutant alleles the study used to probe the SMG-5/SMG-6 interaction.',
+    link: 'https://rnajournal.cshlp.org/content/32/6/858',
+  },
+  {
+    venue: 'RNA · 2024', role: 'Co-author', first: false,
+    title: 'High-resolution reconstruction of a C. elegans ribosome sheds light on evolutionary dynamics and tissue specificity',
+    authors: [['Enisha Sehgal', false], ['Chloe Wohlenberg', false], ['Evan M. Soukup', false], ['Marcus J. Viscardi', true], ['Vitor Hugo Balasco Serrão', false], ['Joshua A. Arribere', false]],
+    found: 'The first high-resolution cryo-EM structure of a C. elegans ribosome, revealing a streamlined animal ribosome. Core architecture is conserved, while expansion segments and eL28 are rapidly evolving, and two ribosomal proteins (uL5, uL23) show tissue-specific paralog expression, suggesting ribosomes differ across tissues.',
+    mine: 'I generated the long-read RNA sequencing that confirmed several of the newly identified ribosomal-protein homologs are expressed.',
+    link: 'https://rnajournal.cshlp.org/content/30/11/1513',
+  },
+]
+
+export const talks = [
+  { year: '2024', venue: 'RNA Society Annual Meeting', city: 'Edinburgh, UK', type: 'poster', topic: 'Endonucleolytic cleavage as the primary mechanism of nonsense-mediated decay.' },
+  { year: '2024', venue: 'Bay Area RNA Club', city: 'UCSF, San Francisco', type: 'talk', topic: 'Reading mRNA decay intermediates with long-read direct RNA-seq.' },
+  { year: '2023', venue: 'CSHL Eukaryotic mRNA Processing', city: 'Cold Spring Harbor, NY', type: 'talk', topic: 'Mechanism of NMD-target decay in C. elegans.' },
+  { year: '2023', venue: 'Bay Area RNA Club', city: 'UCSF, San Francisco', type: 'poster', topic: 'Nanopore direct RNA-seq for studying mRNA decay.' },
+  { year: '2022', venue: 'RNA Society Annual Meeting', city: 'Boulder, CO', type: 'poster', topic: 'Poly(A) selection bias in direct RNA-sequencing.' },
+  { year: '2018', venue: 'RNA Society Annual Meeting', city: 'Berkeley, CA', type: 'poster', topic: 'In vivo expression studies of the V. cholerae glycine riboswitch, including mutational analysis of ligand-binding and dimerization regions.', note: "Undergraduate research, Saint Mary's College of California." },
+]
+
+export const skills = [
+  { h: 'Wet lab', p: 'Nanopore direct RNA-seq, Illumina RNA/DNA/methyl library prep, EM/bisulfite-seq, FFPE workflows, hybrid capture, multiomic assay design.' },
+  { h: 'Pipelines & cloud', p: 'Nextflow on Seqera Platform + AWS Batch, Snakemake, Docker/Singularity, GitHub Actions CI/CD, S3 at TB scale, Linux daily.' },
+  { h: 'Languages', p: 'Python (Pandas, NumPy, SciPy, BioPython, PySAM, scikit-learn), R (tidyverse, DESeq2, edgeR), SQL, bash.' },
+  { h: 'Genomics methods', p: 'STAR, minimap2, GATK, LoFreq, Biscuit, samtools/bcftools/bedtools, MultiQC, variant calling, CpG methylation, CNV, cfDNA.' },
+  { h: 'Applied AI', p: 'Foundation models in production agentic systems — LLM tool-calling, scoped permissions for agents running code against scientific data. Statistical ML at scale.' },
+  { h: 'Domain depth', p: 'RNA biology (decay, splicing, NMD), long-read sequencing, in vitro directed evolution, bulk RNA-seq, methylation, copy number.' },
+]
