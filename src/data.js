@@ -53,6 +53,16 @@ export const projects = [
     pills: ['UMI consensus', 'open source', 'directed evolution'],
   },
   {
+    id: 'nemastocks', chan: 'warm', kicker: 'UC Santa Cruz · full-stack',
+    title: 'NemaStocks',
+    one: 'A Django web app for tracking the lab’s C. elegans strain collection.',
+    body: [
+      'C. elegans labs keep hundreds of frozen strains, and tracking them in spreadsheets gets messy fast. I built a Django web app backed by a relational database (ORM) that the Arribere Lab uses to log strains, record who froze and thawed what, and see current stock, with real user accounts and an admin layer.',
+      'I designed the data model, wrote the importer that migrated the lab’s existing records from JSON, and deployed it for local-network access. It’s the project where I taught myself full-stack software rather than analysis scripts. github.com/MViscardi-UCSC/djangoNemaStocks',
+    ],
+    pills: ['Django', 'relational data model', 'full-stack', 'lab tooling'],
+  },
+  {
     id: 'consult', chan: 'warm', kicker: 'UC Santa Cruz · 3 years',
     title: 'The lab people came to for sequencing help',
     one: 'Three years of ad hoc bioinformatics consulting across the Mol Bio department.',
