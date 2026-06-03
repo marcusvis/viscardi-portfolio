@@ -44,13 +44,14 @@ export const projects = [
   {
     id: 'andromeda', chan: 'rna', kicker: 'Open source',
     title: 'ANDROMEDA',
-    one: 'Nanopore read accuracy from ~80% to ~99.98%.',
+    one: 'Reading an evolved enzyme’s genotype and its activity off single molecules.',
     expand: 'Alignment-based Nucleotide Detection and Read Optimization for Mapping Errors, Deaminations, and Alterations.',
     body: [
-      'Nanopore reads are long but noisy, around 80% raw accuracy, which usually rules out single-base work. ANDROMEDA collapses reads sharing a unique molecular identifier into a consensus, reaching about 99.98%, enough to call single-nucleotide mutations in directed-evolution screens of an RNA base editor.',
-      'Open source, MIT licensed, built with Liam Tran in the Arribere Lab. github.com/MViscardi-UCSC/ANDROMEDA',
+      'I led the analysis and the sequencing-template design for a directed-evolution campaign that pushed an adenosine deaminase (TadA8.20) toward RNA A-to-I editing. The template keeps each enzyme variant tethered to the transcript it edits, so one sequenced molecule carries both the variant’s coding sequence (its genotype) and the edits that variant made (its activity).',
+      'Nanopore reads are only ~80% accurate, which would bury a real edit under the error floor. ANDROMEDA groups reads by a protected UMI into a per-template consensus (~99.98% accuracy), then splits the two overlaid signals by frequency: near-100% changes are the coding mutations (genotype), partial-frequency changes are the deamination edits (a quantitative activity score). That surfaced the alleles driving higher editing at non-canonical motifs.',
+      'A collaborative project with another grad student and our PI; I led the analysis and template design. Open source, MIT licensed. github.com/MViscardi-UCSC/ANDROMEDA',
     ],
-    pills: ['UMI consensus', 'open source', 'directed evolution'],
+    pills: ['directed evolution', 'RNA A-to-I editing', 'single-molecule readout', 'UMI consensus'],
   },
   {
     id: 'nemastocks', chan: 'warm', kicker: 'UC Santa Cruz · full-stack',
