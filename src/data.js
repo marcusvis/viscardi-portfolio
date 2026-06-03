@@ -13,13 +13,13 @@ export const projects = [
   },
   {
     id: 'polya', chan: 'rna', kicker: 'PhD · UC Santa Cruz',
-    title: 'A routine prep step that quietly biases RNA-seq',
+    title: 'Splint-ligation prep captures RNA more evenly',
     one: 'First author, BMC Genomics 2022.',
     body: [
-      'Poly(A) selection is a standard step in RNA-seq library prep. I showed it skews nanopore direct RNA-seq toward transcripts with longer poly(A) tails and inconsistently captures more than 10% of genes, and that the method works fine without it.',
-      'Reading native, full-length RNA is what let me measure the tail-length bias directly instead of inferring it. The finding is now standard caveat language in the direct RNA-seq community.',
+      'Nanopore direct RNA-seq builds its libraries by splint ligation, attaching the adapter straight to native RNA. I showed that approach captures transcripts more evenly than the common poly(A) selection step, which skews toward longer tails and inconsistently picks up more than 10% of genes. The practical upshot is that you can skip selection entirely.',
+      'Because the prep reads full-length native RNA, I could measure that difference directly rather than infer it. The result is now standard caveat language in the direct RNA-seq community.',
     ],
-    pills: ['nanopore direct RNA-seq', 'poly(A) tails', 'first author · BMC Genomics 2022'],
+    pills: ['nanopore direct RNA-seq', 'splint ligation', 'first author · BMC Genomics 2022'],
   },
   {
     id: 'trinity', chan: 'me', kicker: 'Multiomics · lead scientist',
