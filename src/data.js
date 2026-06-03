@@ -12,6 +12,16 @@ export const projects = [
     pills: ['nanopore direct RNA-seq', 'RNA decay', 'first author · Genome Research 2025'],
   },
   {
+    id: 'polya', chan: 'rna', kicker: 'PhD · UC Santa Cruz',
+    title: 'A routine prep step that quietly biases RNA-seq',
+    one: 'First author, BMC Genomics 2022.',
+    body: [
+      'Poly(A) selection is a standard step in RNA-seq library prep. I showed it skews nanopore direct RNA-seq toward transcripts with longer poly(A) tails and inconsistently captures more than 10% of genes, and that the method works fine without it.',
+      'Reading native, full-length RNA is what let me measure the tail-length bias directly instead of inferring it. The finding is now standard caveat language in the direct RNA-seq community.',
+    ],
+    pills: ['nanopore direct RNA-seq', 'poly(A) tails', 'first author · BMC Genomics 2022'],
+  },
+  {
     id: 'trinity', chan: 'me', kicker: 'Multiomics · lead scientist',
     title: 'Three assays collapsed into one library',
     one: 'DNA, RNA, and CpG methylation from a single input.',
